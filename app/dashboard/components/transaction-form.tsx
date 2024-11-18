@@ -6,6 +6,8 @@ import Select from "@/app/components/select";
 import { categories, types } from "@/lib/consts";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { purgeTransactionListCache } from "@/lib/actions";
 
 export default function TransactionForm() {
   const {
@@ -17,8 +19,9 @@ export default function TransactionForm() {
     mode: "onTouched"
   })
 
+  const router = useRouter()
   const [isSaving, setSaving] = useState(false)
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     setSaving(true)
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
@@ -31,6 +34,8 @@ export default function TransactionForm() {
           created_at: `${data.created_at}T00:00:00`
         })
       })
+      await purgeTransactionListCache()
+      router.push('/dashboard')
     } finally {
       setSaving(false)
     }
