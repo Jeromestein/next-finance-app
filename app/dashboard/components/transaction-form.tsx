@@ -5,6 +5,9 @@ import Label from "@/app/components/label";
 import Select from "@/app/components/select";
 import { categories, types } from "@/lib/consts";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { transactionSchema } from "@/lib/validation";
+
 
 export default function TransactionForm() {
   const {
