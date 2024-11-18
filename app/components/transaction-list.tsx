@@ -21,9 +21,7 @@ export default async function TransactionList() {
     'http://localhost:3100/transactions'
   )
   const transactions = await response.json()
-  console.log(transactions)
   const grouped = groupAndSumTransactionsByDate(transactions)
-  console.log(grouped)
   return (
     <div className="space-y-8">
       {Object.entries(grouped)
