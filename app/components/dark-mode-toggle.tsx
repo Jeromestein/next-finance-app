@@ -1,6 +1,6 @@
 'use client'
 import useDarkMode from '@/app/hooks/use-dark-mode'
-import Button from '@/app/components/Buttons'
+import Button from '@/app/components/button'
 import { Moon, Sun } from 'lucide-react'
 export default function DarkModeToggle({ defaultMode = 'dark' }) {
   const { theme, toggleTheme } = useDarkMode(defaultMode)

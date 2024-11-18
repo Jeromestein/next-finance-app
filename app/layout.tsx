@@ -27,9 +27,7 @@ export default function RootLayout({
   const theme = useServerDarkMode()
   return (
     <html lang="en" className={theme}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.className} min-h-screen flex flex-col`}>
         {children}
       </body>
     </html>

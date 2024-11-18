@@ -5,6 +5,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <main>
       <Header className="mt-8" />
       {children}
+      <footer className="mt-auto text-center py-8">Footer</footer>
     </main>
   )
 }
