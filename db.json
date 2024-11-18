@@ -103,6 +103,22 @@
       "amount": "100",
       "description": "work?",
       "id": 13
+    },
+    {
+      "type": "Income",
+      "category": "Housing",
+      "created_at": "1T00:00:00",
+      "amount": "0",
+      "description": "",
+      "id": 14
+    },
+    {
+      "type": "Income",
+      "category": "Education",
+      "created_at": "2024-11-18T00:00:00",
+      "amount": "-1",
+      "description": "",
+      "id": 15
     }
   ],
   "trends": [

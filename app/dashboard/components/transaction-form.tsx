@@ -5,9 +5,12 @@ import Label from "@/app/components/label";
 import Select from "@/app/components/select";
 import { categories, types } from "@/lib/consts";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { transactionSchema } from "@/lib/validation";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { purgeTransactionListCache } from "@/lib/actions";
+import FormError from "@/app/components/form-error";
 
 export default function TransactionForm() {
   const {
@@ -16,7 +19,8 @@ export default function TransactionForm() {
     watch,
     formState: { errors },
   } = useForm({
-    mode: "onTouched"
+    mode: "onTouched",
+    resolver: zodResolver(transactionSchema)
   })
 
   const router = useRouter()
@@ -54,6 +58,7 @@ export default function TransactionForm() {
             </option>
           ))}
         </Select>
+        <FormError error={errors.type} />
       </div>
 
       <div>
@@ -65,24 +70,25 @@ export default function TransactionForm() {
             </option>
           ))}
         </Select>
+        <FormError error={errors.category} />
       </div>
 
       <div>
         <Label className="mb-1">Date</Label>
         <Input {...register("created_at")} />
-        {errors.created_at && <p className="mt-1 text-red-500">{errors.created_at.message}</p>}
+        <FormError error={errors.created_at} />
       </div>
 
       <div>
         <Label className="mb-1">Amount</Label>
         <Input type="number" {...register("amount")} />
-        {errors.amount && <p className="mt-1 text-red-500">{errors.amount.message}</p>}
+        <FormError error={errors.amount} />
       </div>
 
       <div className="col-span-1 md:col-span-2">
         <Label className="mb-1">Description</Label>
         <Input {...register("description")} />
-        {errors.description && <p className="mt-1 text-red-500">{errors.description.message}</p>}
+        <FormError error={errors.description} />
       </div>
     </div>
 
