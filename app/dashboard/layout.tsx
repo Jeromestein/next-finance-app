@@ -1,11 +1,13 @@
-import Header from '@/app/components/page-header'
+import PageHeader from '@/app/components/page-header'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main>
-      <Header className="mt-8" />
-      {children}
-      <footer className="mt-auto text-center py-8">Footer</footer>
-    </main>
+    <>
+      <PageHeader className="my-8" />
+      <main>{children}</main>
+      <footer className="mt-auto py-8 text-center">
+        Footer
+      </footer>
+    </>
   )
 }
