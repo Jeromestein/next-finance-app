@@ -1,15 +1,16 @@
 'use client'
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { transactionSchema } from "@/lib/validation";
+import { categories, types } from "@/lib/consts";
+import { createTransaction } from "@/lib/actions";
 import Button from "@/app/components/button";
 import Input from "@/app/components/input";
 import Label from "@/app/components/label";
 import Select from "@/app/components/select";
-import { categories, types } from "@/lib/consts";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { transactionSchema } from "@/lib/validation";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createTransaction } from "@/lib/actions";
 import FormError from "@/app/components/form-error";
 
 export default function TransactionForm() {
@@ -17,6 +18,7 @@ export default function TransactionForm() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: "onTouched",
@@ -26,6 +28,7 @@ export default function TransactionForm() {
   const router = useRouter()
   const [isSaving, setSaving] = useState(false)
   const [lastError, setLastError] = useState(null)
+  const type = watch("type")
 
   const onSubmit = async (data: any) => {
     setSaving(true)
@@ -47,7 +50,13 @@ export default function TransactionForm() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <Label className="mb-1">Type</Label>
-        <Select {...register("type")}>
+        <Select {...register("type", {
+          onChange: (e) => {
+            if (e.target.value !== "Expense") {
+              setValue("category", "")
+            }
+          }
+        })}>
           {types.map(type => (
             <option key={type}>
               {type}
@@ -59,7 +68,8 @@ export default function TransactionForm() {
 
       <div>
         <Label className="mb-1">Category</Label>
-        <Select {...register("category")}>
+        <Select {...register("category")} disabled={type !== 'Expense'}>
+          <option value="">Select a category</option>
           {categories.map(category => (
             <option key={category}>
               {category}
