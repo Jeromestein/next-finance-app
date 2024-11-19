@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react"
 
 export default function TransactionList({ range, initialTransactions }: { range: string, initialTransactions: any[] }) {
   const [transactions, setTransactions] = useState(initialTransactions)
-  const [offset, setOffset] = useState(initialTransactions.length + 1)
+  const [offset, setOffset] = useState(initialTransactions.length)
   const [buttonHidden, setButtonHidden] = useState(initialTransactions.length === 0)
   const [loading, setLoading] = useState(false)
   const grouped = groupAndSumTransactionsByDate(transactions)
@@ -32,6 +32,10 @@ export default function TransactionList({ range, initialTransactions }: { range:
     }
   }
 
+  const handleRemoved = (id: string) => () => {
+    setTransactions(prev => [...prev].filter(t => t.id !== id))
+  }
+
   return (
     <div className="space-y-8">
       {Object.entries(grouped)
@@ -41,7 +45,7 @@ export default function TransactionList({ range, initialTransactions }: { range:
             <Separator />
             <section className="space-y-4">
               {transactions.map(transaction => <div key={transaction.id}>
-                <TransactionItem {...transaction} />
+                <TransactionItem {...transaction} onRemoved={handleRemoved(transaction.id)} />
               </div>)}
             </section>
           </div>

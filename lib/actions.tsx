@@ -1,7 +1,9 @@
 'use server'
+
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { transactionSchema } from '@/lib/validation'
+
 export async function createTransaction(formData: any) {
   // Handle errors
   const validated = transactionSchema.safeParse(formData)
@@ -29,4 +31,13 @@ export async function fetchTransactions(range: string, offset = 0, limit = 10) {
     })
   if (error) throw new Error("We can't fetch transactions")
   return data
+}
+
+export async function deleteTransaction(id: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('transactions')
+    .delete()
+    .eq('id', id)
+  if (error) throw new Error(`Could not delete the transaction ${id}`)
+  revalidatePath('/dashboard')
 }
