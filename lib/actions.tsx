@@ -1,10 +1,6 @@
 'use server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
-
-export async function purgeTransactionListCache() {
-  revalidateTag('transaction-list')
-}
 
 export async function createTransaction(formData: any) {
   // Handle errors
@@ -15,9 +11,7 @@ export async function createTransaction(formData: any) {
     .insert(formData)
 
   if (error) {
-    console.error(error)
-    return {
-      message: 'Database Error: Failed to create transaction.'
-    }
+    throw new Error('Failed creating the transaction')
   }
+  revalidatePath('/dashboard')
 }
