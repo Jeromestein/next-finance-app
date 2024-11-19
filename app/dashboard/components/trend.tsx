@@ -1,4 +1,5 @@
 import BaseTrend from "@/app/components/trend"
+
 export default async function Trend({ type }: { type: string }) {
   const response = await fetch(`${process.env.API_URL}/trends/${type}`)
   const { amount, prevAmount } = await response.json()
