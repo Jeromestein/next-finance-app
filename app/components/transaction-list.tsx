@@ -1,12 +1,37 @@
 'use client'
 
+import Button from "@/app/components/button"
 import TransactionItem from "@/app/components/transaction-item"
 import TransactionSummaryItem from "@/app/components/transaction-summary-item"
 import Separator from "@/app/components/separator"
+import { fetchTransactions } from "@/lib/actions"
 import { groupAndSumTransactionsByDate } from "@/lib/utils"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
-export default function TransactionList({ initialTransactions }: { initialTransactions: any[] }) {
-  const grouped = groupAndSumTransactionsByDate(initialTransactions)
+export default function TransactionList({ range, initialTransactions }: { range: string, initialTransactions: any[] }) {
+  const [transactions, setTransactions] = useState(initialTransactions)
+  const [offset, setOffset] = useState(initialTransactions.length + 1)
+  const [buttonHidden, setButtonHidden] = useState(initialTransactions.length === 0)
+  const [loading, setLoading] = useState(false)
+  const grouped = groupAndSumTransactionsByDate(transactions)
+
+  const handleClick = async (e) => {
+    setLoading(true)
+    let nextTransactions = null
+    try {
+      nextTransactions = await fetchTransactions(range, offset, 10)
+      setButtonHidden(nextTransactions.length === 0)
+      setOffset(prevValue => prevValue + 10)
+      setTransactions(prevTransactions => [
+        ...prevTransactions,
+        ...nextTransactions
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-8">
       {Object.entries(grouped)
@@ -21,6 +46,15 @@ export default function TransactionList({ initialTransactions }: { initialTransa
             </section>
           </div>
         )}
+      {transactions.length === 0 && <div className="text-center text-gray-400 dark:text-gray-500">No transactions found</div>}
+      {!buttonHidden && <div className="flex justify-center">
+        <Button variant="ghost" onClick={handleClick} disabled={loading}>
+          <div className="flex items-center space-x-1">
+            {loading && <Loader2 className="animate-spin" />}
+            <div>Load More</div>
+          </div>
+        </Button>
+      </div>}
     </div>
   )
 }

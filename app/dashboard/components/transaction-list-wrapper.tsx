@@ -3,5 +3,5 @@ import TransactionList from "@/app/components/transaction-list"
 
 export default async function TransactionListWrapper({ range }: { range: string }) {
   const transactions = await fetchTransactions(range)
-  return <TransactionList initialTransactions={transactions} />
+  return <TransactionList initialTransactions={transactions} key={range} range={range} />
 }
