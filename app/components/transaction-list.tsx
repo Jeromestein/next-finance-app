@@ -1,20 +1,12 @@
+'use client'
+
 import TransactionItem from "@/app/components/transaction-item"
 import TransactionSummaryItem from "@/app/components/transaction-summary-item"
 import Separator from "@/app/components/separator"
-import { createClient } from '@/lib/supabase/server'
 import { groupAndSumTransactionsByDate } from "@/lib/utils"
 
-export default async function TransactionList({ range }: { range: string }) {
-  const supabase = await createClient()
-  let { data: transactions, error } = await supabase
-    .rpc('fetch_transactions', {
-      // limit_arg,
-      // offset_arg,
-      range_arg: range
-    })
-  if (error) throw new Error("We can't fetch transactions")
-
-  const grouped = groupAndSumTransactionsByDate(transactions)
+export default function TransactionList({ initialTransactions }: { initialTransactions: any[] }) {
+  const grouped = groupAndSumTransactionsByDate(initialTransactions)
   return (
     <div className="space-y-8">
       {Object.entries(grouped)
