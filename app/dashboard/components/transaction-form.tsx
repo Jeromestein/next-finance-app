@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { transactionSchema } from "@/lib/validation";
 import { categories, types } from "@/lib/consts";
-import { createTransaction } from "@/lib/actions";
+import { createTransaction, updateTransaction } from "@/lib/actions";
 import Button from "@/app/components/button";
 import Input from "@/app/components/input";
 import Label from "@/app/components/label";
@@ -39,7 +39,7 @@ export default function TransactionForm({ initialData }: { initialData: any }) {
 
     try {
       if (editing) {
-        // Edit action
+        await updateTransaction(initialData.id, data)
       } else {
         await createTransaction(data)
       }

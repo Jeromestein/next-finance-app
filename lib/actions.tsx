@@ -41,3 +41,18 @@ export async function deleteTransaction(id: string) {
   if (error) throw new Error(`Could not delete the transaction ${id}`)
   revalidatePath('/dashboard')
 }
+
+export async function updateTransaction(id: string, formData: any) {
+  const validated = transactionSchema.safeParse(formData)
+  if (!validated.success) {
+    throw new Error('Invalid data')
+  }
+  const supabase = await createClient()
+  const { error } = await supabase.from('transactions')
+    .update(validated.data)
+    .eq('id', id)
+  if (error) {
+    throw new Error('Failed creating the transaction')
+  }
+  revalidatePath('/dashboard')
+}
