@@ -57,14 +57,23 @@ export async function updateTransaction(id: string, formData: any) {
   revalidatePath('/dashboard')
 }
 
+// TODO: need to use third party mail service
 export async function login(prevState: any, formData: any) {
-  if ('jura.piotrek@gmail.com' === formData.get('email')) {
+  const supabase = await createClient()
+  const email = formData.get('email')
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: true
+    }
+  })
+  if (error) {
     return {
-      message: 'You have a success'
+      error: true,
+      message: 'Error authenticating!'
     }
   }
   return {
-    error: true,
-    message: 'Wrong email supplied!'
+    message: `Email sent to ${email}`
   }
 }
