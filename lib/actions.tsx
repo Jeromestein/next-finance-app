@@ -56,3 +56,7 @@ export async function updateTransaction(id: string, formData: any) {
   }
   revalidatePath('/dashboard')
 }
+
+export async function login(formData: any) {
+  console.log(formData)
+}
