@@ -57,6 +57,14 @@ export async function updateTransaction(id: string, formData: any) {
   revalidatePath('/dashboard')
 }
 
-export async function login(formData: any) {
-  console.log(formData)
+export async function login(prevState: any, formData: any) {
+  if ('jura.piotrek@gmail.com' === formData.get('email')) {
+    return {
+      message: 'You have a success'
+    }
+  }
+  return {
+    error: true,
+    message: 'Wrong email supplied!'
+  }
 }
