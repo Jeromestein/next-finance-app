@@ -1,5 +1,22 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## TODO
+
+- [ ] Make currency format dynamic in Trend component
+
+## Tech Stack
+
+- **Frontend**: [Next.js 14](https://nextjs.org/) with App Router and Server Components
+- **Backend**: [Supabase](https://supabase.com/) for serverless backend
+  - Authentication
+  - PostgreSQL Database
+  - Row Level Security
+- **Email Service**: [Resend](https://resend.com/) for transactional emails
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) for styling
+- **Form Handling**: 
+  - [React Hook Form](https://react-hook-form.com/) for form management
+  - [Zod](https://zod.dev/) for form validation
+
 ## Getting Started
 
 First, run the development server:
@@ -35,6 +52,3 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## TODO
-
-- [ ] Make currency format dynamic in Trend component
