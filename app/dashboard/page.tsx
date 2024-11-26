@@ -4,6 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { PlusCircle } from 'lucide-react'
 import { sizes, variants } from "@/lib/variants"
 import { types } from '@/lib/consts'
+import { createClient } from '@/lib/supabase/server'
 import TransactionListWrapper from '@/app/dashboard/components/transaction-list-wrapper'
 import TransactionListFallback from '@/app/components/transaction-list-fallback'
 import Trend from '@/app/dashboard/components/trend'
@@ -12,6 +13,9 @@ import Range from '@/app/dashboard/components/range'
 
 export default async function Dashboard({ searchParams }: { searchParams: { range: string } }) {
   const range = searchParams.range ?? 'last30days'
+
+  const supabase = await createClient()
+  console.log(await supabase.auth.getUser())
 
   return (
     <div className="space-y-8">
