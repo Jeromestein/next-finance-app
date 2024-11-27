@@ -6,12 +6,12 @@ export const metadata = {
   title: "Edit Transaction"
 }
 
-export default async function Page({ params: { id } }: { id: string }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const supabase = await createClient()
   const { data: transaction, error } = await supabase.
     from('transactions')
     .select('*')
-    .eq('id', id)
+    .eq('id', params.id)
     .single()
   if (error) notFound()
 
